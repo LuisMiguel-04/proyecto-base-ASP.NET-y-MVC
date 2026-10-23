@@ -1,0 +1,177 @@
+﻿@model HomeViewModel
+@{
+    ViewData["Title"] = "Agencia de Fotografía";
+}
+
+<header id="inicio" class="hero d-flex align-items-center">
+  <div class="hero-overlay"></div>
+  <div class="container position-relative text-white text-center">
+    <h1 class="display-4 fw-bold">Capturamos momentos, contamos historias</h1>
+    <p class="lead">Agencia de fotografía profesional para bodas, retratos, eventos y marcas</p>
+    <a asp-controller="Solicitudes" asp-action="Crear" class="btn btn-warning btn-lg mt-3">Agenda tu sesión</a>
+  </div>
+</header>
+
+<main>
+  <section id="quienes-somos" class="py-5">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+          <h2 class="section-title">¿Quiénes somos?</h2>
+          <p>
+            Lente Vivo es una agencia de fotografía con más de diez años de experiencia,
+            dedicada a capturar los momentos más importantes de nuestros clientes con un
+            estilo natural, cálido y auténtico. Contamos con un equipo de fotógrafos
+            especializados en distintas áreas, así como equipos de última generación
+            para garantizar resultados de la más alta calidad.
+          </p>
+          <p>
+            Creemos que cada imagen cuenta una historia única, por eso trabajamos de
+            la mano con cada cliente para entender su visión antes de tomar la cámara.
+          </p>
+        </div>
+        <div class="col-lg-6">
+          <div class="row text-center g-3">
+            <div class="col-6">
+              <div class="stat-card p-4 shadow-sm rounded-3">
+                <i class="bi bi-camera-fill fs-1 text-warning"></i>
+                <h3 class="fw-bold mt-2">10+</h3>
+                <p class="mb-0">Años de experiencia</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="stat-card p-4 shadow-sm rounded-3">
+                <i class="bi bi-people-fill fs-1 text-warning"></i>
+                <h3 class="fw-bold mt-2">500+</h3>
+                <p class="mb-0">Clientes felices</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="servicios" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="section-title text-center mb-5">Servicios</h2>
+
+      <div class="row g-4" id="servicios-cards">
+        @foreach (var servicio in Model.Servicios)
+        {
+          <div class="col-md-6 col-lg-4">
+            <div class="card h-100 servicio-card shadow-sm">
+              <div class="card-body">
+                <i class="bi @servicio.Icono text-warning fs-3"></i>
+                <h5 class="card-title mt-2">@servicio.Titulo</h5>
+                <p class="card-text">@servicio.Descripcion</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <h3 class="section-title text-center mt-5 mb-4">Proceso de trabajo</h3>
+      <div class="accordion mx-auto" id="procesoAccordion" style="max-width: 800px;">
+        @for (var i = 0; i < Model.Proceso.Count; i++)
+        {
+          var paso = Model.Proceso[i];
+          var primero = i == 0;
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button @(primero ? "" : "collapsed")" type="button"
+                      data-bs-toggle="collapse" data-bs-target="#paso@(i + 1)">
+                @paso.Titulo
+              </button>
+            </h2>
+            <div id="paso@(i + 1)" class="accordion-collapse collapse @(primero ? "show" : "")" data-bs-parent="#procesoAccordion">
+              <div class="accordion-body">@paso.Descripcion</div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria" class="py-5">
+    <div class="container">
+      <h2 class="section-title text-center">Galería</h2>
+      <p class="text-center mb-4">Una muestra de nuestro trabajo reciente. Filtra por categoría:</p>
+      <div class="d-flex justify-content-center flex-wrap gap-2 mb-4" id="filtro-galeria">
+        <button class="btn btn-outline-dark filtro-btn active" data-categoria="todos">Todos</button>
+        <button class="btn btn-outline-dark filtro-btn" data-categoria="boda">Bodas</button>
+        <button class="btn btn-outline-dark filtro-btn" data-categoria="retrato">Retratos</button>
+        <button class="btn btn-outline-dark filtro-btn" data-categoria="evento">Eventos</button>
+        <button class="btn btn-outline-dark filtro-btn" data-categoria="producto">Producto</button>
+      </div>
+
+      <div class="row g-4" id="galeria-grid">
+        @foreach (var foto in Model.Galeria)
+        {
+          <div class="col-sm-6 col-lg-3 galeria-item" data-categoria="@foto.Categoria">
+            <figure class="card h-100 shadow-sm mb-0">
+              <img src="~/@foto.Imagen" class="card-img-top" alt="@foto.TextoAlternativo">
+              <figcaption class="card-body text-center">@foto.Titulo</figcaption>
+            </figure>
+          </div>
+        }
+      </div>
+
+      <p class="text-center text-muted mt-3 d-none" id="galeria-vacio">No hay fotos en esta categoría todavía.</p>
+
+      <h3 class="section-title text-center mt-5 mb-3">Video institucional</h3>
+      <div class="d-flex justify-content-center">
+        <video controls class="rounded-3 shadow" style="max-width: 100%; width: 600px;"
+               poster="https://images.unsplash.com/photo-1500259783852-3d92cbf22a10?w=800">
+          <source src="~/Videos/mixkit-view-of-a-camera-lens-held-by-a-photographer-50635-full-hd.mp4" type="video/mp4">
+          Tu navegador no soporta la reproducción de video.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <section id="paquetes" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="section-title text-center mb-4">Paquetes y precios</h2>
+
+      <div class="table-responsive mb-4">
+        <table class="table table-bordered table-hover align-middle bg-white">
+          <caption>Tabla comparativa de paquetes fotográficos 2026</caption>
+          <thead class="table-dark">
+            <tr>
+              <th>Paquete</th>
+              <th>Duración</th>
+              <th>Fotos editadas</th>
+              <th>Video</th>
+              <th>Precio</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var paquete in Model.Paquetes)
+            {
+              <tr>
+                <td>@paquete.Nombre</td>
+                <td>@paquete.Duracion</td>
+                <td>@paquete.FotosEditadas</td>
+                <td>@paquete.Video</td>
+                <td>@paquete.Precio.Moneda()</td>
+              </tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4">Precios incluyen edición profesional. Envío digital sin costo adicional.</td>
+              <td>Consulta IVA</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="text-center">
+        <a asp-controller="Cotizador" asp-action="Index" class="btn btn-dark btn-lg">
+          <i class="bi bi-calculator me-2"></i>Calcula tu presupuesto
+        </a>
+      </div>
+    </div>
+  </section>
+</main>

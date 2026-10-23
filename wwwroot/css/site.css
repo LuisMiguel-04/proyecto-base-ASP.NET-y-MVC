@@ -1,0 +1,139 @@
+:root {
+  --lv-dark: #1c1c1c;
+  --lv-gold: #d4a017;
+  --lv-cream: #f7f5f2;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 70px;
+}
+
+body {
+  padding-top: 56px;
+  color: #2b2b2b;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+#main-nav {
+  z-index: 9999;
+  background-color: #212529 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+#main-nav .navbar-brand {
+  color: #fff !important;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+#main-nav .nav-link {
+  margin: 0 0.4rem;
+  color: #fff !important;
+  font-weight: 500;
+}
+
+#main-nav .nav-link:hover,
+#main-nav .nav-link.active {
+  color: var(--lv-gold) !important;
+}
+
+.brand-accent {
+  color: var(--lv-gold) !important;
+}
+
+.hero {
+  position: relative;
+  min-height: 85vh;
+  background-image: url("../Imagenes/camara.jpg");
+  background-position: center;
+  background-size: cover;
+  background-color: var(--lv-dark);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75));
+}
+
+.section-title {
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+}
+
+.section-title::after {
+  display: block;
+  width: 60px;
+  height: 3px;
+  margin: 0.5rem auto 0;
+  background-color: var(--lv-gold);
+  content: "";
+}
+
+#quienes-somos .section-title,
+#contacto .section-title {
+  display: block;
+}
+
+.stat-card {
+  border: 1px solid #eee;
+  background-color: var(--lv-cream);
+}
+
+.servicio-card {
+  border: none;
+  border-top: 3px solid var(--lv-gold);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.servicio-card:hover {
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1) !important;
+  transform: translateY(-6px);
+}
+
+.galeria-item img {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.galeria-item figure {
+  overflow: hidden;
+}
+
+.galeria-item.oculto {
+  display: none;
+}
+
+.filtro-btn.active {
+  border-color: var(--lv-dark);
+  background-color: var(--lv-dark);
+  color: #fff;
+}
+
+.total-cotizacion {
+  font-size: 1.8rem;
+}
+
+.pagina-interna {
+  min-height: 70vh;
+}
+
+footer {
+  background-color: var(--lv-dark);
+  color: #ddd;
+}
+
+footer a {
+  color: var(--lv-gold);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}

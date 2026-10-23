@@ -1,0 +1,100 @@
+@model CotizadorViewModel
+@{
+    ViewData["Title"] = "Cotizador";
+}
+
+<div class="container py-5 pagina-interna">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h2 class="card-title mb-3"><i class="bi bi-calculator me-2"></i>Calcula tu presupuesto</h2>
+
+          <form asp-action="Index" method="post" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label asp-for="PaqueteId" class="form-label"></label>
+                <select asp-for="PaqueteId" class="form-select">
+                  <option value="">Selecciona un paquete</option>
+                  @foreach (var p in Catalogo.Paquetes)
+                  {
+                    <option value="@p.Id">@p.Nombre — @p.Precio.Moneda()</option>
+                  }
+                </select>
+                <span asp-validation-for="PaqueteId" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="Personas" class="form-label"></label>
+                <input asp-for="Personas" class="form-control" min="1" max="500">
+                <div class="form-text">
+                  Más de @CotizadorService.LimitePersonasSinRecargo personas suma un recargo de
+                  @CotizadorService.RecargoPorPersona.Moneda() por persona adicional.
+                </div>
+                <span asp-validation-for="Personas" class="text-danger"></span>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label d-block">Extras</label>
+                <div class="d-flex flex-wrap gap-3">
+                  @foreach (var extra in Catalogo.Extras)
+                  {
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="ExtrasSeleccionados"
+                             id="extra-@extra.Id" value="@extra.Id"
+                             checked="@Model.ExtrasSeleccionados.Contains(extra.Id)">
+                      <label class="form-check-label" for="extra-@extra.Id">
+                        @extra.Nombre (+@extra.Precio.Moneda())
+                      </label>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <button type="submit" class="btn btn-warning btn-lg px-5">Calcular</button>
+            </div>
+          </form>
+
+          @if (Model.Resultado is not null)
+          {
+            var r = Model.Resultado;
+            <hr>
+            <h4 class="mb-3">Detalle de tu cotización</h4>
+            <ul class="list-group mb-3">
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Paquete @r.Paquete.Nombre</span><span>@r.Paquete.Precio.Moneda()</span>
+              </li>
+              @foreach (var extra in r.Extras)
+              {
+                <li class="list-group-item d-flex justify-content-between">
+                  <span>@extra.Nombre</span><span>@extra.Precio.Moneda()</span>
+                </li>
+              }
+              @if (r.Recargo > 0)
+              {
+                <li class="list-group-item d-flex justify-content-between">
+                  <span>Recargo logístico (@r.PersonasConRecargo personas adicionales)</span><span>@r.Recargo.Moneda()</span>
+                </li>
+              }
+            </ul>
+            <div class="d-flex justify-content-between align-items-center">
+              <h4 class="mb-0">Total estimado:</h4>
+              <h4 class="mb-0 text-warning fw-bold total-cotizacion">@r.Total.Moneda()</h4>
+            </div>
+            <div class="text-center mt-4">
+              <a asp-controller="Solicitudes" asp-action="Crear" class="btn btn-dark">Agendar mi sesión</a>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}
