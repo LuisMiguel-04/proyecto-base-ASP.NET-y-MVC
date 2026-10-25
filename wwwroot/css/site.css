@@ -94,22 +94,88 @@ body {
   transform: translateY(-6px);
 }
 
-.galeria-item img {
-  display: block;
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  object-position: center;
-}
-
-.galeria-item figure {
-  overflow: hidden;
-}
-
 .galeria-item.oculto {
   display: none;
 }
 
+.acordeon-galeria {
+  display: flex;
+  gap: 0.75rem;
+  height: 420px;
+}
+
+.acordeon-panel {
+  position: relative;
+  flex: 1;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+  outline: none;
+  transition: flex 0.5s ease, box-shadow 0.3s ease;
+}
+
+.acordeon-panel:hover,
+.acordeon-panel:focus {
+  flex: 4;
+}
+
+.acordeon-panel:focus-visible {
+  box-shadow: 0 0 0 3px var(--lv-gold);
+}
+
+.acordeon-panel img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.15);          
+  transition: transform 0.6s ease;
+}
+
+.acordeon-panel:hover img,
+.acordeon-panel:focus img {
+  transform: scale(1);
+}
+
+.acordeon-panel figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 2rem 1rem 1rem;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+  opacity: 0;
+  transition: opacity 0.4s ease 0.15s;
+}
+
+.acordeon-panel:hover figcaption,
+.acordeon-panel:focus figcaption {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .acordeon-galeria {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .acordeon-panel {
+    flex: none;
+    height: 90px;
+    transition: height 0.5s ease, box-shadow 0.3s ease;
+  }
+
+  .acordeon-panel:hover,
+  .acordeon-panel:focus {
+    flex: none;
+    height: 280px;
+  }
+}
 .filtro-btn.active {
   border-color: var(--lv-dark);
   background-color: var(--lv-dark);

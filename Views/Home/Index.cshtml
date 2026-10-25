@@ -106,16 +106,14 @@
         <button class="btn btn-outline-dark filtro-btn" data-categoria="producto">Producto</button>
       </div>
 
-      <div class="row g-4" id="galeria-grid">
-        @foreach (var foto in Model.Galeria)
-        {
-        <div class="col-sm-6 col-lg-3 galeria-item" data-categoria="@foto.Categoria">
-          <figure class="card h-100 shadow-sm mb-0">
-          <img src="~/@foto.Imagen" class="card-img-top" alt="@foto.TextoAlternativo">
-          <figcaption class="card-body text-center">@foto.Titulo</figcaption>
-        </figure>
-        </div>
-        }
+      <div class="acordeon-galeria" id="galeria-grid">
+       @foreach (var foto in Model.Galeria)
+      {
+        <figure class="acordeon-panel galeria-item" data-categoria="@foto.Categoria" tabindex="0">
+        <img src="~/@foto.Imagen" alt="@foto.TextoAlternativo">
+        <figcaption>@foto.Titulo</figcaption>
+      </figure>
+      }
       </div>
 
       <p class="text-center text-muted mt-3 d-none" id="galeria-vacio">No hay fotos en esta categoría todavía.</p>
