@@ -28,12 +28,12 @@
               </div>
               <div class="col-md-6">
                 <label asp-for="Telefono" class="form-label"></label>
-                <input asp-for="Telefono" type="tel" class="form-control" placeholder="Ej: 3001234567">
+                <input asp-for="Telefono" type="tel" class="form-control" placeholder="Ej: 3001234567" required>
                 <span asp-validation-for="Telefono" class="text-danger"></span>
               </div>
               <div class="col-md-6">
                 <label asp-for="Fecha" class="form-label"></label>
-                <input asp-for="Fecha" type="date" class="form-control">
+                <input asp-for="Fecha" type="date" class="form-control" required>
                 <span asp-validation-for="Fecha" class="text-danger"></span>
               </div>
             </div>
@@ -81,13 +81,13 @@
 
             <div class="mb-3">
               <label asp-for="Invitados" class="form-label"></label>
-              <input asp-for="Invitados" class="form-control" min="1" max="500" placeholder="Ej: 50">
+              <input asp-for="Invitados" class="form-control" min="1" max="500" placeholder="Ej: 50" required>
               <span asp-validation-for="Invitados" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
               <label asp-for="Mensaje" class="form-label"></label>
-              <textarea asp-for="Mensaje" class="form-control" rows="4" placeholder="Describe la idea que tienes en mente..."></textarea>
+              <textarea asp-for="Mensaje" class="form-control" rows="4" placeholder="Describe la idea que tienes en mente..." required></textarea>
               <span asp-validation-for="Mensaje" class="text-danger"></span>
             </div>
           </fieldset>

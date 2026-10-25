@@ -24,10 +24,12 @@ public class SolicitudSesion
     [Display(Name = "Correo electrónico")]
     public string Correo { get; set; } = string.Empty;
 
+    [Required(ErrorMessage = "El teléfono es obligatorio.")]
     [Phone(ErrorMessage = "Ingresa un teléfono válido.")]
     [Display(Name = "Teléfono")]
     public string? Telefono { get; set; }
 
+    [Required(ErrorMessage = "La fecha de la sesión es obligatoria.")]
     [DataType(DataType.Date)]
     [Display(Name = "Fecha deseada para la sesión")]
     public DateTime? Fecha { get; set; }
@@ -37,10 +39,12 @@ public class SolicitudSesion
 
     public List<string> Adicionales { get; set; } = new();
 
+    [Required(ErrorMessage = "El número de personas es obligatorio.")]
     [Range(1, 500, ErrorMessage = "Indica entre 1 y 500 personas.")]
     [Display(Name = "Número aproximado de personas")]
     public int? Invitados { get; set; }
 
+    [Required(ErrorMessage = "El mensaje es obligatorio.")]
     [StringLength(1000, ErrorMessage = "El mensaje no puede superar 1000 caracteres.")]
     [Display(Name = "Cuéntanos sobre tu proyecto")]
     public string? Mensaje { get; set; }
