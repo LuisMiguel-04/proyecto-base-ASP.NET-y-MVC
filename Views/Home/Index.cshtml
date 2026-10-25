@@ -1,4 +1,5 @@
-﻿@model HomeViewModel
+﻿@using LenteVivo.Models;
+@model HomeViewModel
 @{
     ViewData["Title"] = "Agencia de Fotografía";
 }
@@ -108,12 +109,12 @@
       <div class="row g-4" id="galeria-grid">
         @foreach (var foto in Model.Galeria)
         {
-          <div class="col-sm-6 col-lg-3 galeria-item" data-categoria="@foto.Categoria">
-            <figure class="card h-100 shadow-sm mb-0">
-              <img src="~/@foto.Imagen" class="card-img-top" alt="@foto.TextoAlternativo">
-              <figcaption class="card-body text-center">@foto.Titulo</figcaption>
-            </figure>
-          </div>
+        <div class="col-sm-6 col-lg-3 galeria-item" data-categoria="@foto.Categoria">
+          <figure class="card h-100 shadow-sm mb-0">
+          <img src="~/@foto.Imagen" class="card-img-top" alt="@foto.TextoAlternativo">
+          <figcaption class="card-body text-center">@foto.Titulo</figcaption>
+        </figure>
+        </div>
         }
       </div>
 
