@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LenteVivo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bbd8d92620ca68d2745a3c0083e17880adc60ac1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3ddafc2f494d1b581c6a0fa2462957160117d271")]
 [assembly: System.Reflection.AssemblyProductAttribute("LenteVivo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LenteVivo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

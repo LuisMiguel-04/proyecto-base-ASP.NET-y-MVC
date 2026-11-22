@@ -1,35 +1,43 @@
+using LenteVivo.Data;
 using LenteVivo.Models;
 using LenteVivo.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LenteVivo.Controllers;
 
 public class CotizadorController : Controller
 {
     private readonly ICotizadorService _cotizador;
+    private readonly LenteVivoContext _context;
 
-    public CotizadorController(ICotizadorService cotizador)
+    public CotizadorController(ICotizadorService cotizador, LenteVivoContext context)
     {
         _cotizador = cotizador;
+        _context = context;
     }
 
     [HttpGet]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View(new CotizadorViewModel());
+        var model = new CotizadorViewModel();
+        await CargarPaquetesAsync(model);
+        return View(model);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Index(CotizadorViewModel model)
+    public async Task<IActionResult> Index(CotizadorViewModel model)
     {
+        await CargarPaquetesAsync(model);
+
         if (!ModelState.IsValid)
         {
             return View(model);
         }
 
-        var resultado = _cotizador.Calcular(
-            model.PaqueteId!,
+        var resultado = await _cotizador.CalcularAsync(
+            model.PaqueteId!.Value,
             model.Personas,
             model.ExtrasSeleccionados);
 
@@ -44,5 +52,13 @@ public class CotizadorController : Controller
 
         model.Resultado = resultado;
         return View(model);
+    }
+
+    private async Task CargarPaquetesAsync(CotizadorViewModel model)
+    {
+        model.Paquetes = await _context.Paquetes
+            .AsNoTracking()
+            .OrderBy(p => p.Precio)
+            .ToListAsync();
     }
 }

@@ -1,86 +1,64 @@
+using LenteVivo.Data;
 using LenteVivo.Models;
 using LenteVivo.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LenteVivo.Controllers;
 
-public class SolicitudesController : Controller
+public class CotizadorController : Controller
 {
-    private readonly ISolicitudRepository _repositorio;
+    private readonly ICotizadorService _cotizador;
+    private readonly LenteVivoContext _context;
 
-    public SolicitudesController(ISolicitudRepository repositorio)
+    public CotizadorController(ICotizadorService cotizador, LenteVivoContext context)
     {
-        _repositorio = repositorio;
+        _cotizador = cotizador;
+        _context = context;
     }
 
     [HttpGet]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View(_repositorio.ObtenerTodas());
-    }
-
-    [HttpGet]
-    public IActionResult Crear()
-    {
-        return View(new SolicitudSesion());
+        var model = new CotizadorViewModel();
+        await CargarPaquetesAsync(model);
+        return View(model);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Crear(
-        [Bind("Nombre,Correo,Telefono,Fecha,TipoSesion,Adicionales,Invitados,Mensaje")]
-        SolicitudSesion solicitud)
+    public async Task<IActionResult> Index(CotizadorViewModel model)
     {
-        var hoyColombia = DateTime.UtcNow.AddHours(-5).Date;
-
-        if (solicitud.Fecha.HasValue &&
-            solicitud.Fecha.Value.Date < hoyColombia)
-        {
-            ModelState.AddModelError(
-                nameof(solicitud.Fecha),
-                "La fecha no puede ser anterior a hoy.");
-        }
+        await CargarPaquetesAsync(model);
 
         if (!ModelState.IsValid)
         {
-            return View(solicitud);
+            return View(model);
         }
 
-        solicitud.Adicionales = solicitud.Adicionales
-            .Where(id => Catalogo.Extras.Any(extra => extra.Id == id))
-            .Distinct()
-            .ToList();
+        var resultado = await _cotizador.CalcularAsync(
+            model.PaqueteId!.Value,
+            model.Personas,
+            model.ExtrasSeleccionados);
 
-        solicitud.Nombre = solicitud.Nombre.Trim();
-
-        var guardada = _repositorio.Agregar(solicitud);
-
-        return RedirectToAction(
-            nameof(Confirmacion),
-            new { id = guardada.Id });
-    }
-
-    [HttpGet]
-    public IActionResult Confirmacion(int id)
-    {
-        var solicitud = _repositorio.ObtenerPorId(id);
-
-        if (solicitud is null)
+        if (resultado is null)
         {
-            return NotFound();
+            ModelState.AddModelError(
+                nameof(model.PaqueteId),
+                "El paquete seleccionado no existe.");
+
+            return View(model);
         }
 
-        return View(solicitud);
+        model.Resultado = resultado;
+        return View(model);
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Eliminar(int id)
+    private async Task CargarPaquetesAsync(CotizadorViewModel model)
     {
-        TempData["Mensaje"] = _repositorio.Eliminar(id)
-            ? "Solicitud eliminada correctamente."
-            : "No se pudo eliminar la solicitud.";
-
-        return RedirectToAction(nameof(Index));
+        model.Paquetes = await _context.Paquetes
+            .AsNoTracking()
+            .OrderBy(p => p.Precio)
+            .ToListAsync();
     }
 }

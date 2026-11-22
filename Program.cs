@@ -1,10 +1,18 @@
+using LenteVivo.Data;
 using LenteVivo.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<ISolicitudRepository, SolicitudRepository>(); 
-builder.Services.AddScoped<ICotizadorService, CotizadorService>();          
+
+var connectionString = builder.Configuration.GetConnectionString("LenteVivoDb")
+    ?? throw new InvalidOperationException("Falta la cadena de conexión 'LenteVivoDb'.");
+
+builder.Services.AddDbContext<LenteVivoContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<ICotizadorService, CotizadorService>();
 
 var app = builder.Build();
 
@@ -15,7 +23,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();   
+app.UseStaticFiles();
 app.UseRouting();
 
 app.MapControllerRoute(

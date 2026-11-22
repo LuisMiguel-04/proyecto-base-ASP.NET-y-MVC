@@ -1,19 +1,28 @@
+using LenteVivo.Data;
 using LenteVivo.Models;
 
 namespace LenteVivo.Services;
 
 public interface ICotizadorService
 {
-    CotizacionResultado? Calcular(string paqueteId, int personas, IEnumerable<string> extrasIds);
+    Task<CotizacionResultado?> CalcularAsync(int paqueteId, int personas, IEnumerable<string> extrasIds);
 }
+
 public class CotizadorService : ICotizadorService
 {
     public const decimal RecargoPorPersona = 5000m;
     public const int LimitePersonasSinRecargo = 20;
 
-    public CotizacionResultado? Calcular(string paqueteId, int personas, IEnumerable<string> extrasIds)
+    private readonly LenteVivoContext _context;
+
+    public CotizadorService(LenteVivoContext context)
     {
-        var paquete = Catalogo.Paquetes.FirstOrDefault(p => p.Id == paqueteId);
+        _context = context;
+    }
+
+    public async Task<CotizacionResultado?> CalcularAsync(int paqueteId, int personas, IEnumerable<string> extrasIds)
+    {
+        var paquete = await _context.Paquetes.FindAsync(paqueteId);
         if (paquete is null) return null;
 
         var extras = Catalogo.Extras.Where(e => extrasIds.Contains(e.Id)).ToList();
