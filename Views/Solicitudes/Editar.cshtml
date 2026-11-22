@@ -1,0 +1,31 @@
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model SolicitudSesion
+@{
+    ViewData["Title"] = "Editar solicitud";
+}
+
+<section class="py-5 pagina-interna">
+  <div class="container">
+    <h2 class="section-title text-center">Editar solicitud #@Model.Id</h2>
+
+    <div class="row justify-content-center mt-4">
+      <div class="col-lg-8">
+        <form asp-action="Editar" asp-route-id="@Model.Id" method="post" novalidate>
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          <input type="hidden" asp-for="Id" />
+
+          <partial name="_Campos" model="Model" />
+
+          <div class="d-flex justify-content-center gap-2">
+            <a asp-action="Index" class="btn btn-outline-dark btn-lg">Cancelar</a>
+            <button type="submit" class="btn btn-warning btn-lg px-5">Guardar cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}
