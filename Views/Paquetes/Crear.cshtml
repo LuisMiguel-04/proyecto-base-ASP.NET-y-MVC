@@ -1,0 +1,24 @@
+@model Paquete
+@{
+    ViewData["Title"] = "Nuevo paquete";
+}
+
+<div class="container py-5 pagina-interna">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h2 class="section-title text-center mb-4">Nuevo paquete</h2>
+      <form asp-action="Crear" method="post" novalidate>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <partial name="_Campos" model="Model" />
+        <div class="d-flex justify-content-center gap-2 mt-4">
+          <a asp-action="Index" class="btn btn-outline-dark">Cancelar</a>
+          <button type="submit" class="btn btn-warning px-5">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}

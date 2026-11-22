@@ -1,0 +1,29 @@
+@model Paquete
+
+<div class="row g-3">
+  <div class="col-md-6">
+    <label asp-for="Nombre" class="form-label"></label>
+    <input asp-for="Nombre" class="form-control">
+    <span asp-validation-for="Nombre" class="text-danger"></span>
+  </div>
+  <div class="col-md-6">
+    <label asp-for="Precio" class="form-label"></label>
+    <input asp-for="Precio" type="number" step="1000" min="1" class="form-control">
+    <span asp-validation-for="Precio" class="text-danger"></span>
+  </div>
+  <div class="col-md-4">
+    <label asp-for="Duracion" class="form-label"></label>
+    <input asp-for="Duracion" class="form-control" placeholder="Ej: 4 horas">
+    <span asp-validation-for="Duracion" class="text-danger"></span>
+  </div>
+  <div class="col-md-4">
+    <label asp-for="FotosEditadas" class="form-label"></label>
+    <input asp-for="FotosEditadas" class="form-control" placeholder="Ej: 60">
+    <span asp-validation-for="FotosEditadas" class="text-danger"></span>
+  </div>
+  <div class="col-md-4">
+    <label asp-for="Video" class="form-label"></label>
+    <input asp-for="Video" class="form-control" placeholder="Ej: No incluye">
+    <span asp-validation-for="Video" class="text-danger"></span>
+  </div>
+</div>
