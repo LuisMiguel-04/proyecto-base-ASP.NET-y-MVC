@@ -4,14 +4,6 @@ namespace LenteVivo.Services;
 
 public static class Catalogo
 {
-    public static readonly IReadOnlyList<Paquete> Paquetes = new List<Paquete>
-    {
-        new("basico",       "Básico",       "2 horas",       "30",                "No incluye",        450000m),
-        new("estandar",     "Estándar",     "4 horas",       "60",                "No incluye",        750000m),
-        new("premium",      "Premium",      "Día completo",  "120",               "Resumen de 3 min", 1400000m),
-        new("premium-plus", "Premium Plus", "Día completo",  "Todas las tomadas", "Resumen + tráiler", 1900000m)
-    };
-
     public static readonly IReadOnlyList<ExtraServicio> Extras = new List<ExtraServicio>
     {
         new("video", "Video resumen",   180000m),

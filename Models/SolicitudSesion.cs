@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LenteVivo.Models;
 
@@ -20,22 +21,31 @@ public class SolicitudSesion
     public string Nombre { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "El correo es obligatorio.")]
+    [StringLength(150, ErrorMessage = "El correo no puede superar 150 caracteres.")]
     [EmailAddress(ErrorMessage = "Ingresa un correo válido.")]
     [Display(Name = "Correo electrónico")]
     public string Correo { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "El teléfono es obligatorio.")]
+    [StringLength(30, ErrorMessage = "El teléfono no puede superar 30 caracteres.")]
     [Phone(ErrorMessage = "Ingresa un teléfono válido.")]
     [Display(Name = "Teléfono")]
     public string? Telefono { get; set; }
 
     [Required(ErrorMessage = "La fecha de la sesión es obligatoria.")]
     [DataType(DataType.Date)]
+    [Column(TypeName = "date")]
     [Display(Name = "Fecha deseada para la sesión")]
     public DateTime? Fecha { get; set; }
 
     [Display(Name = "Tipo de sesión")]
     public TipoSesion TipoSesion { get; set; } = TipoSesion.Boda;
+
+    [Required(ErrorMessage = "Selecciona un paquete.")]
+    [Display(Name = "Paquete")]
+    public int? PaqueteId { get; set; }
+
+    public Paquete? Paquete { get; set; }
 
     public List<string> Adicionales { get; set; } = new();
 

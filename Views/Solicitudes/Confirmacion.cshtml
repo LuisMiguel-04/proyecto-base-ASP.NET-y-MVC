@@ -12,7 +12,7 @@
         </div>
         <div class="card-body">
           <p>Gracias, <strong>@Model.Nombre</strong>. Registramos tu solicitud de
-            <strong>@Model.TipoSesion</strong>@if (Model.Fecha.HasValue)
+            <strong>@Model.TipoSesion</strong> con el paquete <strong>@Model.Paquete?.Nombre</strong>@if (Model.Fecha.HasValue)
             {
               <text> para el <strong>@Model.Fecha.Value.ToString("dd/MM/yyyy")</strong></text>
             }.
